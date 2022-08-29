@@ -1,6 +1,7 @@
 import axios from "axios";
+import React from "react";
 
-export class ContactService {
+export default class ContactService extends React.Component{
     static serverURl = `http://localhost:9000`;
 
     static getGroups(){
@@ -8,7 +9,10 @@ export class ContactService {
         return axios.get(dataURL);
     }
 
-    static getGroup()
+    static getGroup(){
+        let dataURL =`${this.serverURl}/group`;
+        return axios.get(dataURL);
+    }
 
     static getAllContacts(){
         let dataURL = `${this.serverURl}/contacts`;

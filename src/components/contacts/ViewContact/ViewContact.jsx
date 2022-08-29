@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Link, useParams} from 'react-router-dom';
-import { ContactService } from "../../../services/ContactService";
+import ContactService from '../../../services/ViewContact/ContactService'
+// import { ContactService } from "../../../services/ContactService";
 import Spinner from "../../Spinner/Spinner";
 
 let ViewContact = () => {
