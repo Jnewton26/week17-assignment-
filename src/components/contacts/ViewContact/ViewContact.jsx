@@ -16,7 +16,7 @@ let ViewContact = () => {
 
     useEffect(async() => {
         try {
-            setState ({...StaticRange, loading: true});
+            setState ({...state, loading: true});
             let response = await ContactService.getContact(contactId);
             setState ({
                 ...state,

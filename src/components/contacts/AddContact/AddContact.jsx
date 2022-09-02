@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useNavigate } from "react";
 import {Link} from 'react-router-dom';
 import ContactService from "../../services/ContactService";
 
@@ -75,7 +75,7 @@ let AddContact = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-4">
-                            <form onnSubmit={submitForm}>
+                            <form onSubmit={submitForm}>
                                 <div className="mb-2">
                                     <input 
                                     required={true} 

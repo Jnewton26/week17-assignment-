@@ -1,42 +1,60 @@
 import React, {useEffect , useState} from "react";
 import {Link} from 'react-router-dom';
 import ContactService from "../../services/ContactService";
-import Spinner from "../../../assets/img/SpinnerImg.gif"
+import Spinner from "../../Spinner/Spinner";
 
 let ContactList = () => {
 
-    let [query , setQuery] = useState( {
-        text : ''
-    });
+    let [query, setQuery] = useState('')
+    let [loading, setLoading] = useState(false)
+    let [contacts, setContacts] = useState([])
+    let [filteredContacts, setFilteredContacts] = useState([])
+    let [errorMessage, setErrorMessage] = useState('')
 
-    let [state, setState] = useState( {
-        loading : false,
-        contacts : [],
-        filteredContacts : [],
-        errorMessage : ''
+    // let [query , setQuery] = useState( {
+    //     text : ''
+    // });
 
-    });
+    // let [state, setState] = useState( {
+    //     loading : false,
+    //     contacts : [],
+    //     filteredContacts : [],
+    //     errorMessage : ''
 
-    useEffect ( async () => {
-        try {
-            setState ( { ...state, loading: true});
-            let response = await ContactService.getAllContacts();
-            setState ( {
-                ...state,
-                loading: false,
-                contacts: response.data,
-                filteredContacts: response.data
-            });
+    // });
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                // your code
+            }
+            catch (error) {
+                // your code
+            }
         }
-        catch (error) {
-            setState({
-                ...state,
-                loading: false,
-                errorMessage: error.message
-            });
-        }
+        fetchContacts()
+    }, []);
 
-    } ,[]);
+    // useEffect ( async () => {
+    //     try {
+    //         setState ( { ...state, loading: true});
+    //         let response = await ContactService.getAllContacts();
+    //         setState ( {
+    //             ...state,
+    //             loading: false,
+    //             contacts: response.data,
+    //             filteredContacts: response.data
+    //         });
+    //     }
+    //     catch (error) {
+    //         setState({
+    //             ...state,
+    //             loading: false,
+    //             errorMessage: error.message
+    //         });
+    //     }
+
+    // } ,[]);
     
     //delete contact button
     let clickDelete = async (contactId) => {
@@ -123,7 +141,7 @@ let ContactList = () => {
                             filteredContacts.map(contact => {
                                 return (
                                 <div>
-                                <div className="col-md-6" Key={contact.id}>
+                                <div className="col-md-6" key={contact.id}>
                                     <div className="card my-2">
                                         <div className="card-body">
                                             <div className="row align-items-center d-flex justify-content-around">
