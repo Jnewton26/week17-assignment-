@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {Link, useParams} from 'react-router-dom';
-import ContactService from '../../../services/ViewContact/ContactService'
+import ContactService from "../../services/ContactService";
 // import { ContactService } from "../../../services/ContactService";
 import Spinner from "../../Spinner/Spinner";
 
@@ -52,7 +52,7 @@ let ViewContact = () => {
             {
                 loading ? <Spinner/> : <React.Fragment>
                     {
-                        Object.keys(contact).length > 0 &&
+                        Object.keys(contact).length > 0 && object.keys(group).length > 0 &&
                         <section className="view-contact mt-3">
                             <div className="container">
                                 <div className="row align-items-center">
@@ -77,7 +77,7 @@ let ViewContact = () => {
                                                 Title : <span className="fw-bold">{contact.title}</span>
                                             </li>
                                             <li className="list-group-item list-group-action">
-                                                Group : <span className="fw-bold">{contact.groupId}</span>
+                                                Group : <span className="fw-bold">{group.name}</span>
                                             </li>
                                         </ul>
                                     </div>

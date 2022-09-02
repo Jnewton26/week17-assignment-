@@ -1,12 +1,18 @@
 import React, {useEffect , useState} from "react";
 import {Link} from 'react-router-dom';
-import ContactService from "../../../services/ContactService";
+import ContactService from "../../services/ContactService";
+import Spinner from "../../../assets/img/SpinnerImg.gif"
 
 let ContactList = () => {
+
+    let [query , setQuery] = useState( {
+        text : ''
+    });
 
     let [state, setState] = useState( {
         loading : false,
         contacts : [],
+        filteredContacts : [],
         errorMessage : ''
 
     });
@@ -18,7 +24,8 @@ let ContactList = () => {
             setState ( {
                 ...state,
                 loading: false,
-                contacts: response.data
+                contacts: response.data,
+                filteredContacts: response.data
             });
         }
         catch (error) {
@@ -31,7 +38,38 @@ let ContactList = () => {
 
     } ,[]);
     
-    let {loading, contacts, errorMessage} = state;
+    //delete contact button
+    let clickDelete = async (contactId) => {
+        try {
+            let response = await ContactService.deleteContact(contactId);
+            if (response){
+                setState ( { ...state, loading: true});
+                let response = await ContactService.getAllContacts();
+                setState ( {
+                    ...state,
+                    loading: false,
+                    contacts: response.data,
+                    filteredContacts: response.data
+                });
+            }
+        }
+        catch (error) {
+
+        }
+    };
+
+    let searchContacts =  (event) => {
+        setQuery( {...query, text : event.target.value});
+        let theContacts = state.contacts.filter(contact => {
+            return contact.name.toLowerCase().includes(event.target.value.toLowerCase())
+        });
+        setState( {
+            ...state,
+            filteredContacts: theContacts
+        });
+    };
+
+    let {loading, contacts,filteredContacts, errorMessage} = state;
 
 
     return (
@@ -57,7 +95,11 @@ let ContactList = () => {
                                 <form className="row">
                                     <div className="col">
                                         <div className="mb-2">
-                                            <input type="text" className="form-control" placeholder="Search Names"/>
+                                            <input
+                                            name="text"
+                                            value={query.text}
+                                            onChange={searchContacts}
+                                            type="text" className="form-control" placeholder="Search Names"/>
                                         </div>
                                     </div>
                                     <div className="col">
@@ -77,8 +119,8 @@ let ContactList = () => {
                 <div className="container">
                     <div className="row">
                         {
-                            contacts.length > 0 &&
-                            contacts.map(contact => {
+                            filteredContacts.length > 0 &&
+                            filteredContacts.map(contact => {
                                 return (
                                 <div>
                                 <div className="col-md-6" Key={contact.id}>
@@ -91,10 +133,10 @@ let ContactList = () => {
                                                 <div className="col-md-7">
                                                     <ul className="list-group">
                                                         <li className="list-group-item list-group-action">
-                                                            Name : <span className="fw-bold">{contac.name}</span>
+                                                            Name : <span className="fw-bold">{contact.name}</span>
                                                         </li>
                                                         <li className="list-group-item list-group-action">
-                                                            Mobile : <span className="fw-bold">{contac.mobile}</span>
+                                                            Mobile : <span className="fw-bold">{contact.mobile}</span>
                                                         </li>
                                                         <li className="list-group-item list-group-action">
                                                             Email : <span className="fw-bold">{contact.email}</span>
@@ -143,7 +185,7 @@ let ContactList = () => {
                                                     <Link to={`/contacts/edit/:contactId`} className="btn btn-primary my-1">
                                                     <i className="fa fa-pen"/>
                                                     </Link>
-                                                    <button className="btn btn-danger my-1">
+                                                    <button className="btn btn-danger my-1" onClick={()=> clickDelete(contact.id)}>
                                                     <i className="fa fa-trash"/>
                                                     </button>
                                                 </div>

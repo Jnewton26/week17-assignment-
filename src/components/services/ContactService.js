@@ -9,8 +9,9 @@ export default class ContactService extends React.Component{
         return axios.get(dataURL);
     }
 
-    static getGroup(){
-        let dataURL =`${this.serverURl}/group`;
+    static getGroup(contact){
+        let groupId = contact.groupId;
+        let dataURL = `${this.serverURl}/groups/${groupId}`;
         return axios.get(dataURL);
     }
 
@@ -23,6 +24,22 @@ export default class ContactService extends React.Component{
         let dataURL = `${this.serverURl}/contacts/${contactId}`;
         return axios.get(dataURL);
     }
+
+    static createContact(contact){
+        let dataURL = `${this.serverURl}/contacts`;
+        return axios.post(dataURL, contact);
+    }
+
+    static updateContact (contact , contactId){
+        let dataURL = `${this.serverURl}/contacts/${contactId}`;
+        return axios.put(dataURL, contact);
+    }
+
+    static deleteContact(contactId){
+        let dataURL = `${this.serverURl}/contacts/${contactId}`;
+        return axios.delete(dataURL);
+    }
+
 }
 
 // export default ContactService;
